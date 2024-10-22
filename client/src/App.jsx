@@ -1,12 +1,13 @@
 import {RouterProvider, createBrowserRouter, createRoutesFromElements, Route} from "react-router-dom";
 import './App.css'
+import Main from "./views/Main";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
 
-      <Route path="/" element={<AppLayout/>}>
-        {/* <Route index element={<Main/>}/> */}
+      <Route path="/">
+        <Route index element={<Main/>}/>
         {/* <Route index element={<Landmark/>}/> */}
 
     
@@ -23,7 +24,6 @@ const router = createBrowserRouter(
 )
 
 const App = () => {
-
   return (
     <div className="App">
       <RouterProvider router={router}/>
