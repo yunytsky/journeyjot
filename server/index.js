@@ -2,9 +2,11 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 // Configurations
 const app = express();  
+dotenv.config();
 
 // Middleware
 app.use(express.json());
@@ -21,8 +23,14 @@ app.use((err, req, res, next) => {
     })
 });
 
-// App
-const PORT = process.env.PORT || 6000
-app.listen(PORT, () => {
-    console.log(`App is listening on ${PORT}`)
+// Database setup
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => {
+        console.log("Database connection has been established");
+        const PORT = process.env.PORT || 6000;
+        app.listen(PORT,  () => {
+        console.log("App is listening on PORT", PORT)
+    });
+}).catch(err => {
+    console.log("Database connection failed: ", err)
 })
