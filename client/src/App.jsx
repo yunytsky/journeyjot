@@ -2,25 +2,28 @@ import {RouterProvider, createBrowserRouter, createRoutesFromElements, Route} fr
 import './App.css'
 import Journeys from "./views/Journeys";
 import Auth from "./views/Auth";
+import AppLayout from "./layouts/AppLayout";
+import Journey from "./views/Journey";
+import NotFound from "./views/NotFound";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/">
+    <Route path="/" element={<AppLayout/>}>
 
       <Route path="/">
-        <Route index element={<Journeys/>}/>
         <Route path="auth" element={<Auth/>}/>
-
-        {/* <Route index element={<Landmark/>}/> */}
 
     
 
-        {/* <Route element={<ProtectedRoute/>}>
-        </Route> */}
+        <Route element={<ProtectedRoute/>}>
+        <Route index element={<Journeys/>}/>
+        <Route path="journey" element={<Journey/>}/>
+
+        </Route>
 
       </Route>
 
-      {/* <Route path="*" element={<NotFound/>}/> */} 
+      <Route path="*" element={<NotFound/>}/> 
     </Route>
     
   )

@@ -11,6 +11,7 @@ passport.use(
       callbackURL: `${process.env.DOMAIN}/auth/google/callback`,
     },
     function (accessToken, refreshToken, profile, cb, done) {
+      console.log("PROFILE: ", profile)
       done(null, profile)
       // User.findOrCreate({ exampleId: profile.id }, function (err, user) {
       //   return cb(err, user);

@@ -4,19 +4,22 @@ import { Link } from 'react-router-dom';
 
 const JourneyCard = ({ journey }) => {
   return (
-    <div className="card mb-4">
-      <img src={journey.cover_photo} className="card-img-top" alt={journey.title} />
-      <div className="card-body">
+    <div className="card mb-4" style={{ width: "100%"}}>
+      <img
+        src={journey.cover_photo}
+        className="card-img-top img-fluid" // Ensure image is responsive
+        alt={journey.title}
+        style={{ objectFit: "cover", height: "150px", padding: "0" }} // Adjust height and remove padding
+      />
+      <div className="card-body p-3"> {/* Add some padding to the card body */}
         <h5 className="card-title">{journey.title}</h5>
-        <p className="card-text">{journey.description}</p>
-        <div className="d-flex justify-content-between">
-          <Link to={`/journey/${journey.journey_id}`} className="btn btn-primary">View Details</Link>
-          <Link to={`/edit/${journey.journey_id}`} className="btn btn-warning">Edit</Link>
-          <button className="btn btn-danger" onClick={() => handleDelete(journey.journey_id)}>Delete</button>
-        </div>
+        <p className="card-text">{journey.description.length > 100 ? journey.description.substring(0, 100) + "..." : journey.description}</p>
+        <Link to={`/journey/${journey.journey_id}`} className="btn btn-primary">View Details</Link>
       </div>
     </div>
   );
 };
+
+
 
 export default JourneyCard;
