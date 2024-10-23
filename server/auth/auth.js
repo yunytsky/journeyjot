@@ -1,8 +1,7 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
-
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+import dotenv from "dotenv";
+dotenv.config();
 
 passport.use(
   new GoogleStrategy(
@@ -10,12 +9,12 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: `${process.env.DOMAIN}/auth/google/callback`,
-      passReqToCallback: true,
     },
-    function (accessToken, refreshToken, profile, cb) {
-      User.findOrCreate({ exampleId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+    function (accessToken, refreshToken, profile, cb, done) {
+      done(null, profile)
+      // User.findOrCreate({ exampleId: profile.id }, function (err, user) {
+      //   return cb(err, user);
+      // });
     }
   )
 );

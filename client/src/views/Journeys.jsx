@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import JourneyCard from '../components/JourneyCard';
 
-const Main = () => {
+const Journeys = () => {
   const [journeys, setJourneys] = useState([{cover_photo: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg", title: "Title", description: "lorem ipsum dolor sit amet", journey_id: 0}]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -62,4 +62,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Journeys;

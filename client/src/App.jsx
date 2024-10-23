@@ -1,13 +1,16 @@
 import {RouterProvider, createBrowserRouter, createRoutesFromElements, Route} from "react-router-dom";
 import './App.css'
-import Main from "./views/Main";
+import Journeys from "./views/Journeys";
+import Auth from "./views/Auth";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
 
       <Route path="/">
-        <Route index element={<Main/>}/>
+        <Route index element={<Journeys/>}/>
+        <Route path="auth" element={<Auth/>}/>
+
         {/* <Route index element={<Landmark/>}/> */}
 
     

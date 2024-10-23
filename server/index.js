@@ -8,6 +8,7 @@ import passport from "passport";
 import journeyRoutes from "./routes/journeys.js";
 import authRoutes from "./routes/auth.js";
 import { isAuthenticated } from "./middleware/auth.js";
+
 // Configurations
 const app = express();  
 dotenv.config();
