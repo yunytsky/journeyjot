@@ -1,6 +1,7 @@
 import express from "express";
 import passport from "passport";
-import "../auth/auth.js";
+import "../config/passport.js";
+import { returnUser } from "../controllers/auth.js";
 
 const router = express.Router();
 
@@ -10,10 +11,11 @@ router.get('/google',
 
 router.get('/google/callback',
     passport.authenticate( 'google', {
-        successRedirect: 'http://localhost:5173',
+        successRedirect: 'http://localhost:5173/journeys',
         failureRedirect: 'http://localhost:5173/auth/error'
     })
 );
 
+router.get('/success', returnUser);
 
 export default router;

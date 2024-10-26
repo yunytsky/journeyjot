@@ -6,7 +6,6 @@ const Auth = () => {
         try {
             window.location.href = `${BASE_URL}/auth/google`;
         } catch (error) {
-            // Handle error
             console.log("Error during authentication:", error);
         }
     }

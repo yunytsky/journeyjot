@@ -5,23 +5,18 @@ import Auth from "./views/Auth";
 import AppLayout from "./layouts/AppLayout";
 import Journey from "./views/Journey";
 import NotFound from "./views/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout/>}>
 
-      <Route path="/">
         <Route path="auth" element={<Auth/>}/>
 
-    
-
         <Route element={<ProtectedRoute/>}>
-        <Route index element={<Journeys/>}/>
-        <Route path="journey" element={<Journey/>}/>
-
+          <Route path="journeys" element={<Journeys/>}/>
+          <Route path="journey" element={<Journey/>}/>
         </Route>
-
-      </Route>
 
       <Route path="*" element={<NotFound/>}/> 
     </Route>
