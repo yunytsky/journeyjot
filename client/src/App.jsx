@@ -6,11 +6,12 @@ import AppLayout from "./layouts/AppLayout";
 import Journey from "./views/Journey";
 import NotFound from "./views/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Main from "./views/Main";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout/>}>
-
+        <Route index element={<Main/>}/>
         <Route path="auth" element={<Auth/>}/>
 
         <Route element={<ProtectedRoute/>}>
@@ -26,7 +27,7 @@ const router = createBrowserRouter(
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="App bg-light" style={{minHeight: "100vh"}}>
       <RouterProvider router={router}/>
     </div>
   )
