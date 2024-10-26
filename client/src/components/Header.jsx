@@ -1,9 +1,20 @@
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../api";
 
 const Header = () => {
-    const {user} = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+      try {
+        const res = await logout();
+        setUser(null);
+      } catch (error) {
+        console.log("Error", error)
+      }
+    }
 
     return (
       <header className="bg-white shadow-sm" style={{ padding: "0 2em" }}>
@@ -36,7 +47,7 @@ const Header = () => {
               )}
             </ul>
             {user ? (
-              <button className="btn text-primary">Log out</button>
+              <button className="btn text-primary" onClick={handleLogout}>Log out</button>
             ) : (
               <>
                 <NavLink to="/auth" className="btn btn-link" style={{color: "grey"}}>Sign up</NavLink>

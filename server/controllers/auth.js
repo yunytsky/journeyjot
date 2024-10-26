@@ -11,4 +11,18 @@ const returnUser = (req, res) => {
     }  
 }
 
-export {returnUser};
+const logout = (req, res) => {
+    try {
+        req.logout(req.user, err => {
+            if(err) return next(err);
+            return res.status(200).json({ error: false, message: "Logged out successfully." });
+          });
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ error: true, message: err.message });
+    }
+}
+
+
+
+export {returnUser, logout};

@@ -13,7 +13,6 @@ passport.use(
       scope: ["profile", "email"]
     },
     function (request, accessToken, refreshToken, profile, done) {
-      console.log(profile)
       User.findOne({googleId: profile.id}).then((user) => {
         if (user) {
           return done(null, user);

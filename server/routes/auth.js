@@ -1,7 +1,7 @@
 import express from "express";
 import passport from "passport";
 import "../config/passport.js";
-import { returnUser } from "../controllers/auth.js";
+import { logout, returnUser } from "../controllers/auth.js";
 
 const router = express.Router();
 
@@ -17,5 +17,7 @@ router.get('/google/callback',
 );
 
 router.get('/success', returnUser);
+
+router.get('/logout', logout);
 
 export default router;
