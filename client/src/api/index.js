@@ -21,3 +21,7 @@ export const getJourney = (journeyId) => {
 export const addJourney = (data) => {
   return axios.post(`${BASE_URL}/journeys`, data, {withCredentials: true});
 }
+
+export const deleteJourney = (journeyId) => {
+  return axios.delete(`${BASE_URL}/journeys/${journeyId}`, {withCredentials: true});
+}

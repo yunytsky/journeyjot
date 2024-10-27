@@ -47,7 +47,7 @@ const Header = () => {
               )}
             </ul>
             {user ? (
-              <button className="btn text-primary" onClick={handleLogout}>Log out</button>
+              <button className="btn text-danger" onClick={handleLogout}>Log out</button>
             ) : (
               <>
                 <NavLink to="/auth" className="btn btn-link" style={{color: "grey"}}>Sign up</NavLink>
