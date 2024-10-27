@@ -47,7 +47,7 @@ const Journey = () => {
     <div className="container mt-5 pb-4">
       <article className="text-center">
         <img
-          src={journey.photoUrl}
+          src={journey.image.url}
           className="img-fluid mb-4"
           alt={journey.title}
           style={{ maxHeight: '380px', width: 'auto' }}

@@ -7,8 +7,23 @@ const AddJourney = () => {
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [image, setImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+
+
+  const setFileToBase = (file) =>{
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () =>{
+      setImage(reader.result);
+    }
+  }
+
+  const handleImage = (e) =>{
+    const file = e.target.files[0];
+    setFileToBase(file);
+  } 
 
   const handleAddJourney = async (event) => {
     event.preventDefault();
@@ -30,16 +45,23 @@ const AddJourney = () => {
       return;
     }
 
+
+
+
     try {
+      // Prepare the data object
       const data = {
         title,
         description,
         startDate: start,
         endDate: end,
+        image
       };
+
       const res = await addJourney(data);
       console.log(res);
-      navigate('/journeys'); // Redirect after successful addition
+      navigate('/journeys', {replace: true}); // Redirect after successful addition
+
     } catch (error) {
       console.log("Error", error);
       setErrorMessage("An error occurred while adding the journey."); 
@@ -90,6 +112,16 @@ const AddJourney = () => {
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="image" className="form-label">Upload Image</label>
+          <input
+            type="file"
+            className='form-control'
+            id="image"
+            accept="image/*"
+            onChange={handleImage} // Store the uploaded file
           />
         </div>
         {errorMessage && <div className="text-danger mb-3">{errorMessage}</div>}

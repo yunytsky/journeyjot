@@ -1,3 +1,4 @@
+import cloudinary from "../config/cloudinary.js";
 import Journey from "../models/Journey.js";
 
 export const getAllJourneys = async (req, res) => {
@@ -23,22 +24,41 @@ export const getSingleJourney = async (req, res) => {
 }
 
 export const addJourney = async (req, res) => {
-    try{        
-        const {title, description, startDate, endDate} = req.body;
+    try{
+      const { title, description, startDate, endDate, image } = req.body;
 
-        const journey = new Journey({
-            title,
-            description,
-            startDate,
-            endDate,
-            photoUrl: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-            user: req.user._id,
+      let uploadResult;
+      if(image){
+        uploadResult = await cloudinary.uploader
+        .upload(
+          image, {folder: "journeys"}
+        )
+        .catch((error) => {
+          return res
+            .status(500)
+            .json({ error: true, message: "Error during photo upload" });
+        });   
+        
+      }
+
+      const journey = new Journey({
+        title,
+        description,
+        startDate,
+        endDate,
+        user: req.user._id,
+        ...(uploadResult ? { image: { url: uploadResult.url, publicId: uploadResult.public_id } } : {}),
+      });
+
+      await journey.save();
+
+      return res
+        .status(201)
+        .json({
+          error: false,
+          message: "Journey added successfully.",
+          journey,
         });
-
-        await journey.save();
-
-        return res.status(201).json({ error: false, message: "Journey added successfully.", journey });
-
     }catch(err){
         console.log(err)
         return res.status(500).json({ error: true, message: err.message });
@@ -62,6 +82,30 @@ export const editJourney = async (req, res) => {
             updates.endDate = req.body.endDate;
         }
 
+        if (req.body.image) {
+            const uploadResult = await cloudinary.uploader
+            .upload(
+              req.body.image, {folder: "journeys"}
+            )
+            .catch((error) => {
+              return res
+                .status(500)
+                .json({ error: true, message: "Error during photo upload" });
+            });   
+
+            updates.image = {url: uploadResult.url, publicId: uploadResult.public_id};
+
+            //Delete a previous image from cloudinary (if it was not a default image)
+            const journey = await Journey.findOne({_id: req.params.journeyId, user: req.user._id});
+            if (!journey) {
+                return res.status(404).json({ error: true, message: "Journey not found" });
+            }
+            
+            if(journey.image.publicId !== "default"){
+                await cloudinary.uploader.destroy(journey.image.publicId);
+            }
+        }
+
         const journey = await Journey.findOneAndUpdate(
             { _id: req.params.journeyId, user: req.user._id },
             updates,
@@ -73,6 +117,8 @@ export const editJourney = async (req, res) => {
             return res.status(404).json({ error: true, message: "Journey not found" });
         }
 
+
+
         return res.status(200).json({ error: false, message: "Journey has been successfully updated", journey });
     }catch(err){
         console.log(err)
@@ -82,7 +128,8 @@ export const editJourney = async (req, res) => {
 
 export const deleteJourney = async (req, res) => {
     try{
-        await Journey.deleteOne({ _id: req.params.journeyId, user: req.user._id });
+        const journey = await Journey.findOneAndDelete({ _id: req.params.journeyId, user: req.user._id });
+        await cloudinary.uploader.destroy(journey.image.publicId);
         return res.status(200).json({ error: false, message: "Journey has been removed" });
     }catch(err){
         return res.status(500).json({ error: true, message: err.message });

@@ -61,7 +61,7 @@ return (
       {error && <p className="text-danger">{error}</p>}
       <div className="row">
         {journeys.length === 0 && !loading && <p>No journeys found. Start your adventure!</p>}
-        {journeys.map((journey) => (
+        {journeys.slice().reverse().map((journey) => (
           <div className="col-md-4 mb-4" key={journey._id}>
             <JourneyCard journey={journey} />
           </div>
