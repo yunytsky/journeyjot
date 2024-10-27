@@ -39,7 +39,7 @@ return (
     <div className="jumbotron jumbotron-fluid" style={{ backgroundImage: `linear-gradient(to bottom, rgba(5, 2, 20, 0.5) 0%, rgba(19, 15, 48, 0.5) 100%), url("${bgImage}")`, backgroundRepeat: "no-repeat", backgroundSize: 'cover', height: '480px', backgroundPosition: "50% 25%" }}>
       <div className="container text-center text-white h-100 d-flex flex-column justify-content-center">
         <h1 className="display-4">Hello, {user.username}!</h1>
-        <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <p className="lead">Explore your journeys and create unforgettable memories</p>
         <input
           type="text"
           placeholder="Search for journeys..."
