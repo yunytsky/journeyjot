@@ -16,7 +16,7 @@ const router = createBrowserRouter(
 
         <Route element={<ProtectedRoute/>}>
           <Route path="journeys" element={<Journeys/>}/>
-          <Route path="journey" element={<Journey/>}/>
+          <Route path="journey/:id" element={<Journey/>}/>
         </Route>
 
       <Route path="*" element={<NotFound/>}/> 

@@ -1,9 +1,10 @@
 import express from "express";
-import { getAllJourneys, addJourney, editJourney, deleteJourney } from "../controllers/journeys.js";
+import { getAllJourneys, addJourney, editJourney, deleteJourney, getSingleJourney } from "../controllers/journeys.js";
 
 const router = express.Router();
 
 router.get("/", getAllJourneys);
+router.get("/:journeyId", getSingleJourney);
 
 router.post("/", addJourney);
 

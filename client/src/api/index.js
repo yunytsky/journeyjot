@@ -14,6 +14,10 @@ export const getJourneys = () => {
   return axios.get(`${BASE_URL}/journeys`, {withCredentials: true});
 }
 
+export const getJourney = (journeyId) => {
+  return axios.get(`${BASE_URL}/journeys/${journeyId}`, {withCredentials: true});
+}
+
 export const addJourney = (data) => {
   return axios.post(`${BASE_URL}/journeys`, data, {withCredentials: true});
 }

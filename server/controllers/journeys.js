@@ -1,6 +1,6 @@
 import Journey from "../models/Journey.js";
 
-const getAllJourneys = async (req, res) => {
+export const getAllJourneys = async (req, res) => {
     try{
         const journeys = await Journey.find({ user: req.user._id });
         return res.status(200).json({error: false, message: "Journeys have been successfully fetched", journeys});
@@ -9,7 +9,16 @@ const getAllJourneys = async (req, res) => {
     }   
 }
 
-const addJourney = async (req, res) => {
+export const getSingleJourney = async (req, res) => {
+    try {
+        const journey = await Journey.findOne({ _id: req.params.journeyId, user: req.user._id });
+        return res.status(200).json({error: false, message: "Journey has been successfully fetched", journey});
+    } catch (error) {
+        return res.status(500).json({ error: true, message: err.message });
+    }
+}
+
+export const addJourney = async (req, res) => {
     try{        
         const {title, description, date, photoUrl} = req.body;
 
@@ -31,7 +40,7 @@ const addJourney = async (req, res) => {
     }   
 }
 
-const editJourney = async (req, res) => {
+export const editJourney = async (req, res) => {
     try{
 
     }catch(err){
@@ -39,7 +48,7 @@ const editJourney = async (req, res) => {
     }   
 }
 
-const deleteJourney = async (req, res) => {
+export const deleteJourney = async (req, res) => {
     try{
         await Journey.deleteOne({ _id: req.body.postId });
         return res.status(200).json({ error: false, message: "Journey has been removed" });
@@ -47,5 +56,3 @@ const deleteJourney = async (req, res) => {
         return res.status(500).json({ error: true, message: err.message });
     }   
 }
-
-export {getAllJourneys, addJourney, editJourney, deleteJourney};

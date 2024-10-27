@@ -14,7 +14,7 @@ const JourneyCard = ({ journey }) => {
       <div className="card-body p-3">
         <h5 className="card-title">{journey.title}</h5>
         <p className="card-text">{journey.description.length > 100 ? journey.description.substring(0, 100) + "..." : journey.description}</p>
-        <Link to={`/journey/${journey.journey_id}`} className="btn btn-primary">View Details</Link>
+        <Link to={`/journey/${journey._id}`} className="btn btn-primary">View Details</Link>
       </div>
     </div>
   );
