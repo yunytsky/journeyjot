@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { deleteJourney, getJourney } from '../api';
 import ConfirmationModal from '../components/ConfirmationModal';
 
-const Journey = ({ onEdit }) => {
+const Journey = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [journey, setJourney] = useState(null);
@@ -22,7 +22,7 @@ const Journey = ({ onEdit }) => {
   }, [id]);
 
   const handleDeleteClick = () => {
-    setShowModal(true); // Show modal when delete is clicked
+    setShowModal(true);
   };
 
   const handleConfirmDelete = async () => {
@@ -36,7 +36,7 @@ const Journey = ({ onEdit }) => {
   };
 
   const handleCancelDelete = () => {
-    setShowModal(false); // Hide modal when cancel is clicked
+    setShowModal(false); 
   };
 
   if (!journey) {
@@ -54,16 +54,16 @@ const Journey = ({ onEdit }) => {
         />
         <h1 className="display-4">{journey.title}</h1>
         <p className="text-muted">
-          <small>{new Date(journey.date).toLocaleDateString()}</small>
+          <small>{new Date(journey.startDate).toLocaleDateString()} – {new Date(journey.endDate).toLocaleDateString()}</small>
         </p>
         <p className="lead">{journey.description}</p>
         <div>
-          <button
+          <Link
+            to="edit"
             className="btn btn-primary me-2"
-            onClick={() => onEdit(journey.journey_id)}
           >
             Edit
-          </button>
+          </Link>
           <button className="btn btn-danger" onClick={handleDeleteClick}>
             Delete
           </button>

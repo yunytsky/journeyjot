@@ -25,7 +25,7 @@ const Auth = () => {
         <div style={{ marginTop: '5rem' }}>
             <div className="text-center">
                 <h1 className="display-6 mb-4">
-                    Welcome to <b className="text-primary text-monospace">journeyjot</b>. 👋
+                    Welcome to the <b className="text-primary text-monospace">journeyjot</b>. 👋
                 </h1>
                 <div className="card p-4 shadow-sm" style={{ maxWidth: '300px', margin: 'auto' }}>
                     <h6 className="mb-3">Continue with</h6>

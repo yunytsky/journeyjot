@@ -3,7 +3,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import JourneyCard from '../components/JourneyCard';
 import bgImage from "../assets/hero-bg.jpg";
 import { UserContext } from '../context/UserContext';
-import { addJourney, getJourneys } from '../api';
+import { getJourneys } from '../api';
+import { Link } from 'react-router-dom';
 
 const Journeys = () => {
   const {user} = useContext(UserContext);
@@ -19,7 +20,6 @@ const Journeys = () => {
       try {
         setLoading(true);
         const res = await getJourneys();
-        console.log("RES", res.data.journeys)
         setJourneys(res.data.journeys);
         // setTotalPages(data.totalPages);
       } catch (err) {
@@ -32,16 +32,6 @@ const Journeys = () => {
     fetchJourneys();
   }, [page]);
 
-const handleAddJourney = async () => {
-  try {
-    const data = {title: "random title", description: "random description", date: new Date(), photoUrl: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"}
-    const res = await addJourney(data);
-    console.log(res)
-
-  } catch (error) {
-    console.log("Error", error)
-  }
-}
 
 return (
   <div>
@@ -63,9 +53,9 @@ return (
     <div className="container mt-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Your Journeys</h2>
-        <button className="btn btn-primary" onClick={handleAddJourney}>
+        <Link to="add" className="btn btn-primary">
           Add Journey +
-        </button>
+        </Link>
       </div>
       {loading && <p>Loading journeys...</p>}
       {error && <p className="text-danger">{error}</p>}

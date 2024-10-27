@@ -7,6 +7,8 @@ import Journey from "./views/Journey";
 import NotFound from "./views/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Main from "./views/Main";
+import AddJourney from "./views/AddJourney";
+import EditJourney from "./views/EditJourney";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,7 +18,10 @@ const router = createBrowserRouter(
 
         <Route element={<ProtectedRoute/>}>
           <Route path="journeys" element={<Journeys/>}/>
-          <Route path="journey/:id" element={<Journey/>}/>
+          <Route path="journeys/:id" element={<Journey/>}/>
+          <Route path="journeys/:id/edit" element={<EditJourney/>}/>
+          <Route path="journeys/add" element={<AddJourney/>}/>
+
         </Route>
 
       <Route path="*" element={<NotFound/>}/> 
