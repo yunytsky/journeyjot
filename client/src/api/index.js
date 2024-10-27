@@ -9,3 +9,11 @@ export const auth = () => {
 export const logout = () => {
   return axios.get(`${BASE_URL}/auth/logout`, { withCredentials: true });
 };
+
+export const getJourneys = () => {
+  return axios.get(`${BASE_URL}/journeys`, {withCredentials: true});
+}
+
+export const addJourney = (data) => {
+  return axios.post(`${BASE_URL}/journeys`, data, {withCredentials: true});
+}

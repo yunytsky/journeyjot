@@ -1,5 +1,5 @@
 const returnUser = (req, res) => {
-    try{        
+    try{     
         if(req.user){
             const user = {username: req.user.username, isPremium: req.user.isPremium};
             return res.status(200).json({ error: false, message: "Authenticated", user });

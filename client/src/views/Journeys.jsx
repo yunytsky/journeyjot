@@ -3,87 +3,50 @@ import React, { useContext, useEffect, useState } from 'react';
 import JourneyCard from '../components/JourneyCard';
 import bgImage from "../assets/hero-bg.jpg";
 import { UserContext } from '../context/UserContext';
+import { addJourney, getJourneys } from '../api';
 
 const Journeys = () => {
   const {user} = useContext(UserContext);
 
-  const [journeys, setJourneys] = useState([
-    {
-      cover_photo:
-        "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-      title: "Title",
-      description: "lorem ipsum dolor sit amet",
-      journey_id: 0,
-    },
-    {
-      cover_photo:
-      "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-      title: "Title",
-      description: "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.",
-      journey_id: 1,
-    },
-    {
-      cover_photo:
-      "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-      title: "Title",
-      description: "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.",
-      journey_id: 1,
-    },
-    {
-      cover_photo:
-      "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-      title: "Title",
-      description: "Donec id elit non mi porta gravida at eget metus. Fusce ommodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.",
-      journey_id: 1,
-    },
-    {
-      cover_photo:
-      "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-      title: "Title",
-      description: "Donec id elit non odio dui.",
-      journey_id: 1,
-    },
-    {
-      cover_photo:
-      "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-      title: "Title",
-      description: "Donec id elit nousce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.",
-      journey_id: 1,
-    },
-    {
-      cover_photo:
-      "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-      title: "Title",
-      description: "Donec id elit ndo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.",
-      journey_id: 1,
-    },
-  ]);
+  const [journeys, setJourneys] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-//   useEffect(() => {
-//     const fetchJourneys = async () => {
-//       try {
-//         setLoading(true);
-//         const data = await getJourneys(page);
-//         setJourneys(data.journeys);
-//         setTotalPages(data.totalPages);
-//       } catch (err) {
-//         setError(err.message);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
+  useEffect(() => {
+    const fetchJourneys = async () => {
+      try {
+        setLoading(true);
+        const res = await getJourneys();
+        console.log("RES", res.data.journeys)
+        setJourneys(res.data.journeys);
+        // setTotalPages(data.totalPages);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-//     fetchJourneys();
-//   }, [page]);
+    fetchJourneys();
+  }, [page]);
+
+const handleAddJourney = async () => {
+  try {
+    const data = {title: "random title", description: "random description", date: new Date(), photoUrl: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"}
+    const res = await addJourney(data);
+    console.log(res)
+
+  } catch (error) {
+    console.log("Error", error)
+  }
+}
 
 return (
   <div>
     {/* Hero Section */}
-    <div className="jumbotron jumbotron-fluid" style={{ backgroundImage: `linear-gradient(to bottom, rgba(5, 2, 20, 0.5) 0%, rgba(19, 15, 48, 0.5) 100%), url("${bgImage}")`, backgroundRepeat: "no-repeat", backgroundSize: 'cover', height: '480px', backgroundPosition: "50%  25%" }}>
+    <div className="jumbotron jumbotron-fluid" style={{ backgroundImage: `linear-gradient(to bottom, rgba(5, 2, 20, 0.5) 0%, rgba(19, 15, 48, 0.5) 100%), url("${bgImage}")`, backgroundRepeat: "no-repeat", backgroundSize: 'cover', height: '480px', backgroundPosition: "50% 25%" }}>
       <div className="container text-center text-white h-100 d-flex flex-column justify-content-center">
         <h1 className="display-4">Hello, {user.username}!</h1>
         <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
@@ -98,13 +61,18 @@ return (
 
     {/* Cards Section */}
     <div className="container mt-5">
-      <h2>Your Journeys</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Your Journeys</h2>
+        <button className="btn btn-primary" onClick={handleAddJourney}>
+          Add Journey +
+        </button>
+      </div>
       {loading && <p>Loading journeys...</p>}
       {error && <p className="text-danger">{error}</p>}
       <div className="row">
         {journeys.length === 0 && !loading && <p>No journeys found. Start your adventure!</p>}
         {journeys.map((journey) => (
-          <div className="col-md-4 mb-4" key={journey.journey_id}>
+          <div className="col-md-4 mb-4" key={journey._id}>
             <JourneyCard journey={journey} />
           </div>
         ))}
@@ -133,6 +101,9 @@ return (
     </div>
   </div>
 );
+
+
+
 };
 
 export default Journeys;

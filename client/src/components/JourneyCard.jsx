@@ -6,7 +6,7 @@ const JourneyCard = ({ journey }) => {
   return (
     <div className="card mb-4" style={{ width: "100%"}}>
       <img
-        src={journey.cover_photo}
+        src={journey.photoUrl}
         className="card-img-top img-fluid"
         alt={journey.title}
         style={{ objectFit: "cover", height: "150px", padding: "0" }} 

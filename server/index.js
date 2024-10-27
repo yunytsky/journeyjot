@@ -8,11 +8,20 @@ import passport from "passport";
 import journeyRoutes from "./routes/journeys.js";
 import authRoutes from "./routes/auth.js";
 import { isAuthenticated } from "./middleware/auth.js";
+import cookieParser from "cookie-parser";
 
 // Configurations
 const app = express();  
 dotenv.config();
-app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: true }));
+app.use(cookieParser());
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, httpOnly: true, sameSite: "lax" },
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
