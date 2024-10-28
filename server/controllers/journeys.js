@@ -2,6 +2,7 @@ import cloudinary from "../config/cloudinary.js";
 import Journey from "../models/Journey.js";
 import Location from "../models/Location.js";
 
+//bind locations
 export const getAllJourneys = async (req, res) => {
     try{
         const journeys = await Journey.find({ user: req.user._id });
@@ -12,6 +13,7 @@ export const getAllJourneys = async (req, res) => {
     }   
 }
 
+//bind locations
 export const getSingleJourney = async (req, res) => {
     try {
         const journey = await Journey.findOne({ _id: req.params.journeyId, user: req.user._id });
@@ -44,7 +46,6 @@ export const addJourney = async (req, res) => {
 
       const addedLocations = [];
       if(locations){
-        console.log(locations) 
         await Promise.all(
             locations.map(location => {
                 const newLocation = new Location({...location, user: req.user._id});
@@ -143,7 +144,15 @@ export const editJourney = async (req, res) => {
 export const deleteJourney = async (req, res) => {
     try{
         const journey = await Journey.findOneAndDelete({ _id: req.params.journeyId, user: req.user._id });
+        
+        //Delete corresponding image
         await cloudinary.uploader.destroy(journey.image.publicId);
+        
+        //Delete corresponding locations
+        await Promise.all(
+            journey.locations.map(location => Location.deleteOne({_id: location}))
+        );
+
         return res.status(200).json({ error: false, message: "Journey has been removed" });
     }catch(err){
         return res.status(500).json({ error: true, message: err.message });
