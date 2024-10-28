@@ -2,7 +2,6 @@ import cloudinary from "../config/cloudinary.js";
 import Journey from "../models/Journey.js";
 import Location from "../models/Location.js";
 
-//bind locations
 export const getAllJourneys = async (req, res) => {
     try{
         const journeys = await Journey.find({ user: req.user._id }).populate("locations", "name coordinates -_id");

@@ -2,19 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { deleteJourney, getJourney } from '../api';
 import ConfirmationModal from '../components/ConfirmationModal';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
-
-const MapView = ({ center }) => {
-  const map = useMap();
-  useEffect(() => {
-    if (center) {
-      map.setView(center, map.getZoom());
-    }
-  }, [center, map]);
-
-  return null; // This component does not render anything visible
-};
+import MapView from '../components/MapView';
 
 const Journey = () => {
   const { id } = useParams();
@@ -93,8 +83,8 @@ const Journey = () => {
                 }}
                 className={
                   selectedLocationId === index
-                    ? "mb-1 btn p-0 fw-medium text-primary"
-                    : "mb-1 btn p-0"
+                    ? "d-block mb-1 btn p-0 fw-medium text-primary"
+                    : "d-block mb-1 btn p-0"
                 }
                 key={index}
                 style={{ border: "none" }}

@@ -5,10 +5,11 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import session from "express-session";
 import passport from "passport";
-import journeyRoutes from "./routes/journeys.js";
-import authRoutes from "./routes/auth.js";
 import { isAuthenticated } from "./middleware/auth.js";
 import cookieParser from "cookie-parser";
+import journeyRoutes from "./routes/journeys.js";
+import authRoutes from "./routes/auth.js";
+import locationRoutes from "./routes/locations.js";
 
 // Configurations
 const app = express();  
@@ -33,6 +34,7 @@ app.use(cors({origin: "http://localhost:5173", credentials: true}));
 // Routes
 app.use("/auth", authRoutes)
 app.use("/journeys", isAuthenticated, journeyRoutes);
+app.use("/locations", isAuthenticated, locationRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {

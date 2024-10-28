@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Main from "./views/Main";
 import AddJourney from "./views/AddJourney";
 import EditJourney from "./views/EditJourney";
+import Map from "./views/Map";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,7 +22,7 @@ const router = createBrowserRouter(
           <Route path="journeys/:id" element={<Journey/>}/>
           <Route path="journeys/:id/edit" element={<EditJourney/>}/>
           <Route path="journeys/add" element={<AddJourney/>}/>
-
+          <Route path="map" element={<Map/>}/>
         </Route>
 
       <Route path="*" element={<NotFound/>}/> 
