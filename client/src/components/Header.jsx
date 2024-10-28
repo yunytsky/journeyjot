@@ -40,7 +40,7 @@ const Header = () => {
                                 <li className="nav-item">
                                     <NavLink
                                         to="/journeys"
-                                        className={({ isActive }) => (isActive ? "nav-link text-primary" : "nav-link")}
+                                        className={({ isActive }) => (isActive ? "nav-link fw-medium" : "nav-link")}
                                     >
                                         Journeys
                                     </NavLink>
@@ -48,7 +48,7 @@ const Header = () => {
                                 <li className="nav-item">
                                     <NavLink
                                         to="/map"
-                                        className={({ isActive }) => (isActive ? "nav-link text-primary" : "nav-link")}
+                                        className={({ isActive }) => (isActive ? "nav-link  fw-medium" : "nav-link")}
                                     >
                                         Map
                                     </NavLink>

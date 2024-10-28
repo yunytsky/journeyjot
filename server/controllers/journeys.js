@@ -1,5 +1,6 @@
 import cloudinary from "../config/cloudinary.js";
 import Journey from "../models/Journey.js";
+import Location from "../models/Location.js";
 
 export const getAllJourneys = async (req, res) => {
     try{
@@ -25,9 +26,10 @@ export const getSingleJourney = async (req, res) => {
 
 export const addJourney = async (req, res) => {
     try{
-      const { title, description, startDate, endDate, image } = req.body;
+      const { title, description, startDate, endDate, image, locations } = req.body;
 
       let uploadResult;
+
       if(image){
         uploadResult = await cloudinary.uploader
         .upload(
@@ -37,8 +39,19 @@ export const addJourney = async (req, res) => {
           return res
             .status(500)
             .json({ error: true, message: "Error during photo upload" });
-        });   
-        
+        });    
+      };
+
+      const addedLocations = [];
+      if(locations){
+        console.log(locations) 
+        await Promise.all(
+            locations.map(location => {
+                const newLocation = new Location({...location, user: req.user._id});
+                addedLocations.push(newLocation._id)
+                return newLocation.save();
+            })
+        )
       }
 
       const journey = new Journey({
@@ -48,6 +61,7 @@ export const addJourney = async (req, res) => {
         endDate,
         user: req.user._id,
         ...(uploadResult ? { image: { url: uploadResult.url, publicId: uploadResult.public_id } } : {}),
+        ...(addedLocations.length > 0 ? {locations: addedLocations} : {})
       });
 
       await journey.save();
