@@ -14,7 +14,18 @@ const AddJourney = () => {
   const navigate = useNavigate();
   
   const suggestionsRefs = useRef([]);
-  useEffect(() => {console.log("locations", locations)}, [locations])
+
+  const debounce = (func, timeout) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func(...args);
+      }, timeout);
+    };
+   };
+
+  //Images
   const setFileToBase = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -28,6 +39,8 @@ const AddJourney = () => {
     setFileToBase(file);
   };
 
+
+  //Locations
   const handleAddLocation = () => {
     if (locations.length < 150) {
       setLocations([...locations, { name: '', coordinates: {lat: null, lng: null}, suggestions: [], showSuggestions: false }]);
@@ -39,15 +52,6 @@ const AddJourney = () => {
     setLocations(updatedLocations);
   };
 
-  const debounce = (func, timeout) => {
-    let timer;
-    return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        func(...args);
-      }, timeout);
-    };
-  };
 
   const getSuggestions = useCallback(async (index, value) => {
     const fetchedSuggestions = await getMapSuggestions(value);
@@ -66,8 +70,8 @@ const AddJourney = () => {
   const handleLocationChange = async (index, value) => {
     const updatedLocations = [...locations];
     updatedLocations[index].name = value;
-    updatedLocations[index].coordinates.lat = null; // Reset lat on input change
-    updatedLocations[index].coordinates.lng = null; // Reset lng on input change
+    updatedLocations[index].coordinates.lat = null;
+    updatedLocations[index].coordinates.lng = null;
     setLocations(updatedLocations);
 
     if (value) {
@@ -120,6 +124,7 @@ const AddJourney = () => {
     event.preventDefault();
     setErrorMessage('');
 
+    //Data verification
     if (!title || !startDate || !endDate) {
       setErrorMessage("Title, Start Date, End Date, and valid Locations are required!");
       return;
@@ -137,6 +142,25 @@ const AddJourney = () => {
       return;
     }
 
+    const hasDuplicateLocations = (arr) => {
+      const seen = new Set();
+      
+      for (const location of arr) {
+        const identifier = `${location.name}-${location.coordinates.lat}-${location.coordinates.lng}`;
+        if (seen.has(identifier)) {
+          return true;
+        }
+        seen.add(identifier);
+      }
+      
+      return false;
+    };
+
+    if (hasDuplicateLocations(locations)) {
+      setErrorMessage("There cannot be duplicate locations");
+      return;
+    }
+
     const start = new Date(startDate);
     const end = new Date(endDate);
     
@@ -146,7 +170,7 @@ const AddJourney = () => {
     }
 
     try {
-      let formattedLocations
+      let formattedLocations;
 
       //Formatting locations if they were included
       if(locations.length > 1 || (locations.length === 1 && locations[0].name)){

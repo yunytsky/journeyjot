@@ -5,7 +5,7 @@ import Location from "../models/Location.js";
 //bind locations
 export const getAllJourneys = async (req, res) => {
     try{
-        const journeys = await Journey.find({ user: req.user._id });
+        const journeys = await Journey.find({ user: req.user._id }).populate("locations", "name coordinates -_id");
         
         return res.status(200).json({error: false, message: "Journeys have been successfully fetched", journeys});
     }catch(err){
@@ -13,10 +13,9 @@ export const getAllJourneys = async (req, res) => {
     }   
 }
 
-//bind locations
 export const getSingleJourney = async (req, res) => {
     try {
-        const journey = await Journey.findOne({ _id: req.params.journeyId, user: req.user._id });
+        const journey = await Journey.findOne({ _id: req.params.journeyId, user: req.user._id }).populate("locations",  "name coordinates -_id");
         if(!journey){
             return res.status(404).json({ error: true, message: "Journey not found" });
         }
@@ -82,6 +81,12 @@ export const addJourney = async (req, res) => {
 
 export const editJourney = async (req, res) => {
     try{
+        let journey = await Journey.findOne({_id: req.params.journeyId, user: req.user._id});
+       
+        if (!journey) {
+            return res.status(404).json({ error: true, message: "Journey not found" });
+        }
+        
         const updates = {};
 
         if (req.body.title) {
@@ -95,6 +100,29 @@ export const editJourney = async (req, res) => {
         }
         if (req.body.endDate) {
             updates.endDate = req.body.endDate;
+        }
+
+        if(req.body.locations){
+            console.log(req.body.locations)
+            const addedLocations = [];
+
+            //Delete previous locations
+            await Promise.all(
+                journey.locations.map(location => {
+                    return Location.findOneAndDelete({_id: location._id});
+                })
+            )
+
+            //Create new locations
+            await Promise.all(
+                req.body.locations.map(location => {
+                    const newLocation = new Location({...location, user: req.user._id});
+                    addedLocations.push(newLocation._id)
+                    return newLocation.save();
+                })
+            )
+ 
+            updates.locations = addedLocations; //array with location ids
         }
 
         if (req.body.image) {
@@ -111,28 +139,19 @@ export const editJourney = async (req, res) => {
             updates.image = {url: uploadResult.url, publicId: uploadResult.public_id};
 
             //Delete a previous image from cloudinary (if it was not a default image)
-            const journey = await Journey.findOne({_id: req.params.journeyId, user: req.user._id});
-            if (!journey) {
-                return res.status(404).json({ error: true, message: "Journey not found" });
-            }
-            
             if(journey.image.publicId !== "default"){
                 await cloudinary.uploader.destroy(journey.image.publicId);
             }
         }
+        
+        Object.assign(journey, updates);
+        journey = await journey.save();
 
-        const journey = await Journey.findOneAndUpdate(
-            { _id: req.params.journeyId, user: req.user._id },
-            updates,
-            { new: true, runValidators: true }
-        );
-
-
-        if (!journey) {
-            return res.status(404).json({ error: true, message: "Journey not found" });
-        }
-
-
+        // const journey = await Journey.findOneAndUpdate(
+        //     { _id: req.params.journeyId, user: req.user._id },
+        //     updates,
+        //     { new: true, runValidators: true }
+        // );
 
         return res.status(200).json({ error: false, message: "Journey has been successfully updated", journey });
     }catch(err){
