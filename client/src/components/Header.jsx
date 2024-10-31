@@ -53,6 +53,14 @@ const Header = () => {
                                         Map
                                     </NavLink>
                                 </li>
+                                <li className="nav-item">
+                                    <NavLink
+                                        to="/statistics"
+                                        className={({ isActive }) => (isActive ? "nav-link  fw-medium" : "nav-link")}
+                                    >
+                                        Statistics
+                                    </NavLink>
+                                </li>
                             </>
                         )}
                     </ul>

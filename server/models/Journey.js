@@ -16,7 +16,7 @@ const journeySchema = new Schema(
         type: String,
         required: true,
         default:
-          "https://res.cloudinary.com/dlmjkfdpf/image/upload/v1730063876/10009122_qulozs.jpg",
+          "https://res.cloudinary.com/dlmjkfdpf/image/upload/v1730064670/nepal-1309205_1280_juomqq.jpg",
       },
       publicId: { type: String, required: true, default: "default" },
     },

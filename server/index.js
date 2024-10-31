@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import journeyRoutes from "./routes/journeys.js";
 import authRoutes from "./routes/auth.js";
 import locationRoutes from "./routes/locations.js";
+import subscriptionRoutes from "./routes/subscription.js";
 
 // Configurations
 const app = express();  
@@ -35,6 +36,7 @@ app.use(cors({origin: "http://localhost:5173", credentials: true}));
 app.use("/auth", authRoutes)
 app.use("/journeys", isAuthenticated, journeyRoutes);
 app.use("/locations", isAuthenticated, locationRoutes);
+app.use("/subscription", isAuthenticated, subscriptionRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {

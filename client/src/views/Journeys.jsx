@@ -20,7 +20,9 @@ const Journeys = () => {
       try {
         setLoading(true);
         const res = await getJourneys();
-        setJourneys(res.data.journeys);
+        if(res.data.journeys){
+          setJourneys(res.data.journeys);
+        }
         // setTotalPages(data.totalPages);
       } catch (err) {
         setError(err.message);

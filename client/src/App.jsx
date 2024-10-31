@@ -10,6 +10,10 @@ import Main from "./views/Main";
 import AddJourney from "./views/AddJourney";
 import EditJourney from "./views/EditJourney";
 import Map from "./views/Map";
+import Statistics from "./views/Statistics";
+import GetPremium from "./views/GetPremium";
+import PaymentSuccess from "./views/PaymentSuccess";
+import PaymentFailure from "./views/PaymentFailure";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +27,13 @@ const router = createBrowserRouter(
           <Route path="journeys/:id/edit" element={<EditJourney/>}/>
           <Route path="journeys/add" element={<AddJourney/>}/>
           <Route path="map" element={<Map/>}/>
+          <Route path="statistics" element={<Statistics/>}/>
+          <Route path="get-premium">
+            <Route index element={<GetPremium/>}/>
+            <Route path="success" element={<PaymentSuccess/>}/>
+            <Route path="failed" element={<PaymentFailure/>}/>
+
+          </Route>
         </Route>
 
       <Route path="*" element={<NotFound/>}/> 

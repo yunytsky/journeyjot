@@ -33,3 +33,8 @@ export const deleteJourney = (journeyId) => {
 export const getLocations = () => {
   return axios.get(`${BASE_URL}/locations`, {withCredentials: true});
 }
+
+export const checkout = (data) => {
+  return axios.post(`${BASE_URL}/subscription/checkout`, data, {withCredentials: true});
+}
+
