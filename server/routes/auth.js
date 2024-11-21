@@ -1,8 +1,10 @@
 import express from "express";
 import passport from "passport";
+import dotenv from "dotenv";
 import "../config/passport.js";
 import { logout, returnUser } from "../controllers/auth.js";
 
+dotenv.config();
 const router = express.Router();
 
 router.get('/google',
@@ -11,8 +13,8 @@ router.get('/google',
 
 router.get('/google/callback',
     passport.authenticate( 'google', {
-        successRedirect: 'http://localhost:5173/journeys',
-        failureRedirect: 'http://localhost:5173/auth/error'
+        successRedirect: `${process.env.FE_DOMAIN}/journeys`,
+        failureRedirect: `${process.env.FE_DOMAIN}/auth/error`
     })
 );
 

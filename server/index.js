@@ -30,7 +30,7 @@ app.use(passport.session());
 // Middleware
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json({ limit: '50mb' }));
-app.use(cors({origin: "http://localhost:5173", credentials: true}));
+app.use(cors({origin: process.env.FE_DOMAIN, credentials: true}));
 
 // Routes
 app.use("/auth", authRoutes)
