@@ -15,6 +15,7 @@ import GetPremium from "./views/GetPremium";
 import PaymentSuccess from "./views/PaymentSuccess";
 import PaymentFailure from "./views/PaymentFailure";
 
+//router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout/>}>
