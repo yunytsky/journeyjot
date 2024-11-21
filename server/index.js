@@ -15,13 +15,12 @@ import subscriptionRoutes from "./routes/subscription.js";
 // Configurations
 const app = express();  
 dotenv.config();
-app.use(cookieParser());
 app.use(
   session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, httpOnly: true, sameSite: "lax" },
+    cookie: { secure: true,  httpOnly: true, sameSite: "none", domain: ".onrender.com" },
   })
 );
 app.use(passport.initialize());
