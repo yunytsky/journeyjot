@@ -20,7 +20,7 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true,  httpOnly: true, sameSite: "none", domain: ".onrender.com" },
+    cookie: { secure: false,  httpOnly: true, sameSite: "lax"},
   })
 );
 app.use(passport.initialize());

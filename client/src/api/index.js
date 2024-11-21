@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = "https://journeyjot-u1cg.onrender.com";
+export const BASE_URL = "http://localhost:3000";
 
 export const auth = () => {
     return axios.get(`${BASE_URL}/auth/success`, { withCredentials: true });

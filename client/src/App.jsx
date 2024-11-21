@@ -32,13 +32,10 @@ const router = createBrowserRouter(
             <Route index element={<GetPremium/>}/>
             <Route path="success" element={<PaymentSuccess/>}/>
             <Route path="failed" element={<PaymentFailure/>}/>
-
           </Route>
         </Route>
-
       <Route path="*" element={<NotFound/>}/> 
     </Route>
-    
   )
 )
 

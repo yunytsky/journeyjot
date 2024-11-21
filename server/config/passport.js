@@ -27,10 +27,13 @@ passport.use(
 );
 
 passport.serializeUser(function (user, done) {
+  console.log('serialize user')
+  console.log(user.id)
   done(null, user.id);
 });
 
 passport.deserializeUser(function (userId, done) {
+  console.log(userId)
   User.findById(userId).then((user) => {
     done(null, user);
   })
